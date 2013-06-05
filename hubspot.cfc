@@ -42,7 +42,7 @@
 		<cfargument name="pageName" type="string" required="false" default="" />
 		<cfargument name="ipAddress" type="string" required="false" default="" />
 
-		<!--- any valid company or msr custom field --->
+		<!--- any valid company or custom field --->
 		<cfargument name="email" type="string" required="true" />
 		<cfargument name="firstname" type="string" required="false" default="" />
 		<cfargument name="lastname" type="string" required="false" default="" />
@@ -55,15 +55,11 @@
 		<cfargument name="zip" type="string" required="false" default="" />
 		<cfargument name="country" type="string" required="false" default="" />
 
-		<cfargument name="account_type" type="string" required="false" default="" />
-		<cfargument name="existing_service_" type="string" required="false" default="" />
-		<cfargument name="hear_about_msr" type="string" required="false" default="" />
-		<cfargument name="date_of_next_event" type="string" required="false" default="" />
-		<cfargument name="questions_comments" type="string" required="false" default="" />
-
 		<cfset var hs_context = {"hutk": arguments.hutk, "ipAddress": arguments.ipAddress, "pageUrl": arguments.pageUrl, "pageName": arguments.pageName} />
 		<cfset var post = duplicate(arguments) />
 		<cfset var headers = {"Content-Type": "application/x-www-form-urlencoded"} />
+
+		<cfset post["hs_context"] = serializeJSON(hs_context) />
 
 		<cfreturn doRemoteCall(method = "POST", resource = "https://forms.hubspot.com/uploads/form/v2/#getPortalID()#/#arguments.form_guid#", headers = headers, payload = post) />
 	</cffunction>
